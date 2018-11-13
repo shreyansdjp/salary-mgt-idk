@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 * {
     margin:0;
     padding: 0;
+}
+
+.bg-special {
+    background: rgba(0,0,0,0.4);
 }
 
 #hero-img {
@@ -15,4 +25,25 @@
 
 #alerts .alert {
     padding: 15px;
+}
+
+.special-height {
+    height: 500px;
+}
+
+a:hover {
+    color: white;
+}
+
+a:hover *{
+    color: white;
+}
+
+.basic-padding {
+    margin-top: 120px;
+    margin-bottom: 120px;
+}
+
+#features .row {
+    margin: 0;
 }

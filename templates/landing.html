@@ -1,13 +1,145 @@
 {% extends 'base.html' %}
     
 {% block content %}
-<div class="parallax-container">
-    <div class="parallax">
-        <img src="{{ url_for('static', filename='img/bg.jpg') }}" id="hero-img" alt="">
-        <p>my name is idk</p>
+<header>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="container">
+                <a href="{{ url_for('index') }}" class="brand-logo">Home</a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('company_user') }}">Register Your Company</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="parallax-container">
+        <div class="parallax">
+            <img src="{{ url_for('static', filename='img/bg.jpg') }}" id="hero-img" alt="">
+        </div>
+        <div class="bg-special special-height w-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <h1 class="display-1 text-white">Salary Management</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <h4 class="text-white text-justify">Manage Salary, Payments and Employees</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <a href="{{ url_for('company') }}" class="btn-large waves-effect waves-light">
+                            Get Started <i class="material-icons right">send</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</header>
+
+<section id="about" class="basic-padding">
+    <div class="container">
+        <h2 class="mb-4 pb-4 text-center">About Us</h2>
+        <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, ipsam suscipit vitae voluptatibus reprehenderit itaque quam, amet adipisci exercitationem laborum necessitatibus. Eveniet doloremque tempore ex, eos vel hic repellat sed. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem numquam deleniti vel corporis animi totam dolor omnis laudantium commodi. Pariatur quas error facilis minima sapiente autem, nesciunt aperiam sequi at!</p>
+        <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, ipsam suscipit vitae voluptatibus reprehenderit itaque quam, amet adipisci exercitationem laborum necessitatibus. Eveniet doloremque tempore ex, eos vel hic repellat sed. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem numquam deleniti vel corporis animi totam dolor omnis laudantium commodi. Pariatur quas error facilis minima sapiente autem, nesciunt aperiam sequi at!</p>
+    </div>
+</section>
+
+<div class="container-fluid">
+    <hr>
 </div>
 
+<section id="features" class="basic-padding">
+    <div class="container">
+        <h2 class="mb-4 pb-4 text-center">Features</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i class="material-icons small">apps</i>
+                    </div>
+                    <div class="col-md-10">
+                        <p>Feature 1</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 offset-md-2">
+                        <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, eveniet enim natus impedit nostrum ex a odit, quisquam inventore soluta dignissimos consequatur. Eaque quam doloremque aperiam sapiente libero consequatur dolores?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i class="material-icons small">apps</i>
+                    </div>
+                    <div class="col-md-10">
+                        <p>Feature 2</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 offset-md-2">
+                        <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, eveniet enim natus impedit nostrum ex a odit, quisquam inventore soluta dignissimos consequatur. Eaque quam doloremque aperiam sapiente libero consequatur dolores?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i class="material-icons small">apps</i>
+                    </div>
+                    <div class="col-md-10">
+                        <p>Feature 3</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 offset-md-2">
+                        <p class="text-justify">Lorem ipsum dolor sit am2t consectetur adipisicing elit. Nesciunt, eveniet enim natus impedit nostrum ex a odit, quisquam inventore soluta dignissimos consequatur. Eaque quam doloremque aperiam sapiente libero consequatur dolores?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i class="material-icons small">apps</i>
+                    </div>
+                    <div class="col-md-10">
+                        <p>Feature 4</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 offset-md-2">
+                        <p class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, eveniet enim natus impedit nostrum ex a odit, quisquam inventore soluta dignissimos consequatur. Eaque quam doloremque aperiam sapiente libero consequatur dolores?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer pb-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="pt-3 white-text text-center monospace">Copyright &copy; Rupanshu, Rohit, Navneet</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+ 
+{% block script %}
 <script>
     $(document).ready(function(){
         $('.parallax').parallax();

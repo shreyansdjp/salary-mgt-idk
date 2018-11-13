@@ -1,4 +1,5 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
+from functools import wraps
 from mysql import get_connection
 
 app = Flask(__name__)
@@ -23,7 +24,10 @@ def index():
 
 @app.route('/company')
 def company():
-    return render_template('company.html')
+    if request.method == "POST":
+        pass
+    else:
+        return render_template('company.html')
 
 
 @app.route('/company/user')
