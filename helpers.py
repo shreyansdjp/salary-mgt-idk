@@ -1,6 +1,13 @@
 from mysql import get_connection
 from passlib.hash import sha256_crypt
 
+def check_int(number):
+    try:
+        n = int(number)
+        return True
+    except ValueError:
+        return False
+
 class Company:
 
     def __init__(self):
@@ -116,6 +123,79 @@ class Employee:
 
     def __init__(self):
         self.connection = get_connection()
+
+    def if_exists(self, name, designation, department_no, company_id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM `employees` WHERE name=%s AND designation=%s AND department_no=%s AND company_id=%s"
+                cursor.execute(sql, (name, designation, str(department_no), str(company_id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return False
+                return True
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def create(self, name, hour_rate, hours_worked, designation, department_no, company_id):
+        if self.if_exists(name, designation, department_no, company_id):
+            return True
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "INSERT INTO `employees` (`name`, `hour_rate`, `hours_worked`, `designation`, `department_no`, `company_id`) \
+                        VALUES (%s, %s, %s, %s, %s, %s)"
+                cursor.execute(sql, (name, str(hour_rate), str(hours_worked), designation, str(department_no), str(company_id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return False
+                return True
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def get_one(self, id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM `employees` WHERE id=%s"
+                cursor.execute(sql, (str(id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return None
+                return cursor.fetchone()
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def get(self, company_id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM `employees` WHERE company_id=%s"
+                cursor.execute(sql, (company_id))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return None
+                return cursor.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def delete(self, id, company_id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "DELETE FROM `employees` WHERE id=%s AND company_id=%s"
+                cursor.execute(sql, (str(id), str(company_id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return False
+                return True
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
 
     def __del__(self):
         self.connection.close()

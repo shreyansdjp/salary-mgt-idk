@@ -29,6 +29,9 @@
                 <li>
                     <a href="{{ url_for('logout') }}">Logout</a>
                 </li>
+                <li>
+                    <a class="dropdown-trigger" href="#!" data-target="dropdown">
+                        {{ session['name'] }} <i class="material-icons right">arrow_drop_down</i></a></li>
                 {% endif %}
             </ul>
         </div>
@@ -45,4 +48,15 @@
         </ul>
     </div>
 </nav>
-            
+
+<ul id="dropdown" class="dropdown-content">
+    <li>
+        <a href="{{ url_for('employees') }}">View Employees</a>
+    </li>
+    <li>
+        <a href="{{ url_for('add_employees') }}">Add Employees</a>
+    </li>
+    <li>
+        <a href="{{ url_for('add_administrators') }}">Add Administrators</a>
+    </li>
+</ul>

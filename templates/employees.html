@@ -1,4 +1,38 @@
 {% extends 'base.html' %}
 
+{% block title %} | Employees {% endblock %}
+
 {% block content %}
+<section id="employees" class="mt-4 pt-4">
+    <div class="container">
+        {% if employees %}
+        <table class="responsive-table">
+            <thead>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Department Number</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employee['name'] }}</td>
+                    <td>{{ employee['designation'] }}</td>
+                    <td>{{ employee['department_no'] }}</td>
+                    <td>
+                        <a href="/user/employees/{{ employee['id'] }}" class="btn">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="flow-text">There are no employees in your organization right now! 
+            <a href="{{ url_for('add_employees') }}">Add Some?</a>
+        </p>
+        {% endif %}
+    </div>
+</section>
+
+
 {% endblock %}

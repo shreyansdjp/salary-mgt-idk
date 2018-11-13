@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, request, redirect, url_for, session
 from functools import wraps
 from mysql import get_connection
-from helpers import Company, Administrator
+from helpers import Company, Administrator, Employee, check_int
 
 app = Flask(__name__)
 # i know i know
@@ -80,6 +80,7 @@ def login():
         if verification_and_data:
             session['id'] = verification_and_data['id']
             session['username'] = verification_and_data['username']
+            session['name'] = verification_and_data['name']
             session['is_owner'] = verification_and_data['is_owner']
             session['is_supervisor'] = verification_and_data['is_supervisor']
             session['company_id'] = verification_and_data['company_id']
@@ -96,17 +97,37 @@ def logout():
     flash('Successfully Logged Out', 'success')
     return redirect(url_for('login'))
 
+
 @app.route('/user/employees')
 @login_required
 def employees():
-    return render_template('employees.html')
+    employees = Employee().get(session['company_id'])
+    return render_template('employees.html', employees=employees)
 
 
 @app.route('/user/employees/add', methods=["POST", "GET"])
 @login_required
 def add_employees():
     if request.method == "POST":
-        pass
+        name = request.form['full_name']
+        hour_rate = request.form['hour_rate']
+        hours_worked = request.form['hours_worked']
+        designation = request.form['designation']
+        department_no = request.form['department_no']
+
+        if name == '' or hour_rate == '' or  hours_worked == '' \
+            or designation == '' or department_no == '':
+            flash('You forgot to enter some fields', 'danger')
+            return redirect(url_for('add_employees'))
+
+        if not (check_int(hour_rate) and check_int(hours_worked)):
+            flash('You did not enter correct Hour rate or Hours Worked', 'danger')
+            return redirect(url_for('add_employees'))
+        
+        employee = Employee()
+        if employee.create(name, hour_rate, hours_worked, designation, department_no, session['company_id']):
+            flash('Successfully added a new Employee', 'success')
+            return redirect(url_for('employees'))
     else:
         return render_template('add_employees.html')
 
@@ -122,16 +143,30 @@ def add_administrators():
 
 @app.route('/user/employees/<int:id>', methods=["POST", "GET"])
 @login_required
-def employee():
-    if request.method == "POST":
-        pass
-    else:
-        return render_template('employee.html')
+def employee(id):
+    employee = Employee()
+    employee = employee.get_one(id)
+    return render_template('employee.html', employee=employee)
 
+
+@app.route('/user/employees/<int:id>/edit')
+@login_required
+def edit_employee(id):
+    return render_template('edit_employee.html')
+
+
+@app.route('/user/employees/<int:id>/delete')
+@login_required
+def delete_employee(id):
+    employee = Employee()
+    if employee.delete(id, session['company_id']):
+        flash('Successfully deleted one employee', 'success')
+        return redirect(url_for('employees'))
+    
 
 @app.route('/user/employees/<int:id>/view')
 @login_required
-def view():
+def view(id):
     return render_template('view.html')
 
 
