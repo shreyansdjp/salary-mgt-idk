@@ -1,11 +1,22 @@
-from flask import Flask 
+from flask import Flask, render_template, flash, request, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = '1Fb56I77YfwV14dPBc36'
+
+# custom decorators
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'id' not in request.session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route('/')
 def index():
-    return "Hello, World"
+    # flash(u'congratulations', 'success')
+    return render_template('landing.html')
 
 
 if __name__ == '__main__':

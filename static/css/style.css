@@ -1,0 +1,18 @@
+* {
+    margin:0;
+    padding: 0;
+}
+
+#hero-img {
+    z-index: -1;
+}
+
+#alerts *{
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#alerts .alert {
+    padding: 15px;
+}
