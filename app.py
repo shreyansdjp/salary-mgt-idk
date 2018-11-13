@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
 
 app = Flask(__name__)
+# i know i know
 app.secret_key = '1Fb56I77YfwV14dPBc36'
 
 # custom decorators
