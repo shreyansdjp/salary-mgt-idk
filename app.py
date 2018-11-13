@@ -1,4 +1,5 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
+from mysql import get_connection
 
 app = Flask(__name__)
 # i know i know
@@ -18,6 +19,45 @@ def login_required(f):
 def index():
     # flash(u'congratulations', 'success')
     return render_template('landing.html')
+
+
+@app.route('/company')
+def company():
+    return render_template('company.html')
+
+
+@app.route('/company/user')
+def company_user():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template('company_user.html')
+
+
+@app.route('/user/login')
+def login():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template('login.html')
+
+
+@app.route('/user/employees')
+@login_required
+def employees():
+    return render_template('employees.html')
+
+
+@app.route('/user/employees/<int:id>')
+@login_required
+def employee():
+    return render_template('employee.html')
+
+
+@app.route('/user/employees/<int:id>/view')
+@login_required
+def view():
+    return render_template('view.html')
 
 
 if __name__ == '__main__':
