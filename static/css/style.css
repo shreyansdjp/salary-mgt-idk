@@ -47,3 +47,7 @@ a:hover *{
 #features .row {
     margin: 0;
 }
+
+.input-field {
+    margin: 50px 0 50px 0;
+}

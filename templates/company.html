@@ -1,4 +1,51 @@
 {% extends 'base.html' %}
 
+{% block title %} | Register Your Company {% endblock %}
+
 {% block content %}
+<section id="new-comapany" class="mt-4 pt-4">
+    <h4 class="mb-4 text-center">Register Your Company</h4>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <form action="{{ url_for('company') }}" method="POST">
+                    <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
+                    <div class="input-field">
+                        <input type="text" name="company_name" class="validate" id="company_name" placeholder="Example - Facebook Inc." required>
+                        <label for="company_name">Company Name*</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <textarea name="company_address" class="materialize-textarea" id="company_address" placeholder="Example - 138 Bedford US" required></textarea>
+                        <label for="company_address">Company Permanent Address</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="company_registration_no" id="company_registration_no" placeholder="Example - UXSJ431324L2J34LKJLJ32LK4J" required>
+                        <label for="company_registration_no">Company Registration Number</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="full_name" id="full_name" placeholder="Example - SatyaMurthy" required>
+                        <label for="full_name">Name of the owner</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="username" class="validate" id="username" placeholder="Example - satyam" required>
+                        <label for="username">Username</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" name="password" id="password" required>
+                        <label for="password">Password</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        Submit <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

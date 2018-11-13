@@ -1,0 +1,48 @@
+<nav>
+    <div class="nav-wrapper">
+        <div class="container">
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li
+                {% if '/' == request.path %}
+                class="active"
+                {% endif %}
+                >
+                    <a href="{{ url_for('index') }}">Home</a>
+                </li>
+                {% if 'id' not in session %}
+                <li
+                {% if '/user/login' in request.path %}
+                class="active"
+                {% endif %}
+                >
+                    <a href="{{ url_for('login') }}">Login</a>
+                </li>
+                <li
+                {% if '/company/register' == request.path %}
+                class="active"
+                {% endif %}
+                >
+                    <a href="{{ url_for('company') }}">Register Your Company</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <ul id="slide-out" class="sidenav">
+            <li>
+                <a href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li>
+                <a href="{{ url_for('login') }}">Login</a>
+            </li>
+            <li>
+                <a href="{{ url_for('company') }}">Register Your Company</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+            
