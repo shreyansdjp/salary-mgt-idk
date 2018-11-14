@@ -1,4 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section id="payslip" class="mt-4">
+    <div class="container">
+        <table class="table table-bordered centered">
+            <thead>
+                <tr>
+                    <th>Fields</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>{{ employee['name'] }}</td>
+                </tr>
+                <tr>
+                    <td>Designation</td>
+                    <td>{{ employee['designation'] }}</td>
+                </tr>
+                <tr>
+                    <td>Hour Rate</td>
+                    <td>&#x20b9; {{ employee['hour_rate'] }}</td>
+                </tr>
+                <tr>
+                    <td>Hours Worked</td>
+                    <td>{{ employee['hours_worked'] }}</td>
+                </tr>
+                {% if overtime != '0' %}
+                <tr>
+                    <td>Overtime</td>
+                    <td>{{ overtime }}</td>
+                </tr>
+                {% endif %} 
+                <tr>
+                    <td>Total Salary</td>
+                    <td>&#x20b9; {{ total_salary }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

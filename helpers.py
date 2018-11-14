@@ -183,6 +183,23 @@ class Employee:
         finally:
             cursor.close()
 
+    def update(self, id, name, hour_rate, hours_worked, designation, department_no, company_id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE `employees` SET name=%s, hour_rate=%s, hours_worked=%s, designation=%s, department_no=%s \
+                        WHERE id=%s AND company_id=%s;"
+                cursor.execute(sql, (name, str(hour_rate), str(hours_worked), designation, str(department_no), str(id), str(company_id)))
+                self.connection.commit()
+                print(cursor.rowcount)
+                if cursor.rowcount == 0:
+                    return False
+                return True
+        except Exception as e:
+            print('something went wrong')
+            print(e)
+        finally:
+            cursor.close()
+
     def delete(self, id, company_id):
         try:
             with self.connection.cursor() as cursor:

@@ -10,12 +10,20 @@
                 <p class="flow-text">Hours Worked - {{ employee['hours_worked'] }}</p>
                 <p class="flow-text">Designation - {{ employee['designation'] }}</p>
                 <p class="flow-text">Department Number - {{ employee['department_no'] }}</p>
+                <form action="/user/employees/{{ employee['id'] }}/view" id="view" method="GET">
+                    <div class="input-field">
+                        <input type="number" name="overtime" min="0" max="30" value="0" class="validate" id="overtime">
+                        <label for="overtime" class="flow-text">Overtime Hours</label>
+                    </div>                    
+                    <button type="submit" href="/user/employees/{{ employee['id'] }}/view" class="btn btn-outline-warning">View Pay Slip</button>
+                </form>
             </div>
+            {% if session['is_owner'] == '1' and session['is_supervisor'] == '1' %}
             <div class="card-actions p-4">
                 <a href="/user/employees/{{ employee['id'] }}/edit" class="btn btn-outline-warning">Edit Employee</a>
                 <a href="/user/employees/{{ employee['id'] }}/delete" class="btn btn-outline-danger">Delete Employee</a>
-                <a href="/user/employees/{{ employee['id'] }}/view" class="btn btn-info">View Pay Slip</a>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, redirect, url_for, session
+from flask import Flask, render_template, flash, request, redirect, url_for, session, abort
 from functools import wraps
 from mysql import get_connection
 from helpers import Company, Administrator, Employee, check_int
@@ -108,7 +108,11 @@ def employees():
 @app.route('/user/employees/add', methods=["POST", "GET"])
 @login_required
 def add_employees():
+    
     if request.method == "POST":
+        if session['is_owner'] != '1':
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
         name = request.form['full_name']
         hour_rate = request.form['hour_rate']
         hours_worked = request.form['hours_worked']
@@ -128,6 +132,9 @@ def add_employees():
         if employee.create(name, hour_rate, hours_worked, designation, department_no, session['company_id']):
             flash('Successfully added a new Employee', 'success')
             return redirect(url_for('employees'))
+        else:
+            flash('Something went wrong', 'danger')
+            return redirect(url_for('add_employees'))
     else:
         return render_template('add_employees.html')
 
@@ -136,6 +143,9 @@ def add_employees():
 @login_required
 def add_administrators():
     if request.method == "POST":
+        if session['is_owner'] != '1':
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
         pass
     else:
         return render_template('add_administrators.html')
@@ -149,25 +159,69 @@ def employee(id):
     return render_template('employee.html', employee=employee)
 
 
-@app.route('/user/employees/<int:id>/edit')
+@app.route('/user/employees/<int:id>/edit', methods=["POST", "GET"])
 @login_required
 def edit_employee(id):
-    return render_template('edit_employee.html')
+    if request.method == "POST":
+        if session['is_owner'] != '1' or session['is_supervisor'] != '1':
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
+        name = request.form['full_name']
+        hour_rate = request.form['hour_rate']
+        hours_worked = request.form['hours_worked']
+        designation = request.form['designation']
+        department_no = request.form['department_no']
+        if name == '' or hour_rate == '' or  hours_worked == '' \
+            or designation == '' or department_no == '':
+            flash('You forgot to enter some fields', 'danger')
+            return redirect(url_for('add_employees'))
+
+        if not (check_int(hour_rate) and check_int(hours_worked)):
+            flash('You did not enter correct Hour rate or Hours Worked', 'danger')
+            return redirect(url_for('add_employees'))
+        
+        employee = Employee()
+        if employee.update(id, name, hour_rate, hours_worked, designation, department_no, session['company_id']):
+            flash('Update one Employee', 'success')
+            return redirect(url_for('employees'))
+        else:
+            flash('Something went wrong', 'danger')
+            return redirect(url_for('edit_employee'))
+    else:
+        employee = Employee()
+        employee = employee.get_one(id)
+        return render_template('edit_employee.html', employee=employee)
 
 
 @app.route('/user/employees/<int:id>/delete')
 @login_required
 def delete_employee(id):
+    if session['is_owner'] != '1':
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
     employee = Employee()
     if employee.delete(id, session['company_id']):
         flash('Successfully deleted one employee', 'success')
         return redirect(url_for('employees'))
-    
+    else:
+        flash('Something went wrong', 'danger')
+        return redirect(url_for('edit_employee'))
+
 
 @app.route('/user/employees/<int:id>/view')
 @login_required
 def view(id):
-    return render_template('view.html')
+    overtime = request.args['overtime']
+    if not check_int(overtime):
+        flash('You did not enter valid input', 'danger')
+        return redirect(url_for('employees'))
+    employee = Employee()
+    employee = employee.get_one(id)
+    if overtime != '0':
+        total_salary = int(employee['hours_worked']) * int(employee['hour_rate']) * int(overtime)
+    else:
+        total_salary = int(employee['hours_worked']) * int(employee['hour_rate'])
+    return render_template('view.html', employee=employee, overtime=overtime, total_salary=total_salary)
 
 
 if __name__ == '__main__':

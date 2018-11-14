@@ -51,3 +51,9 @@ a:hover *{
 .input-field {
     margin: 50px 0 50px 0;
 }
+
+@media print {
+    .no-print, .no-print * {
+        display: none;
+    }
+}

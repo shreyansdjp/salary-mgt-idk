@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %} | Edit Employee {% endblock %}
+
+{% block content %}
+<section id="login" class="mt-4 pt-4">
+    <h4 class="mb-4 text-center">Edit Employee</h4>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <form action="/user/employees/{{ employee['id'] }}/edit" method="POST">
+                    <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
+                    <div class="input-field">
+                        <input type="text" name="full_name" class="validate active" value="{{ employee['name'] }}" id="full_name" required>
+                        <label for="full_name">Name of Employee</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="number" min="1" name="hour_rate" id="hour_rate" value="{{ employee['hour_rate'] }}" required>
+                        <label for="hour_rate">Per hour rate of the Employee</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="number" min="1" max="730" name="hours_worked" id="hours_worked" value="{{ employee['hours_worked'] }}" required>
+                        <label for="hours_worked">Hours worked in a month</label>
+                        <span class="helper-text" data-error="This field is required and range is 1 to 730" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="designation" class="validate" id="designation"  value="{{ employee['designation'] }}" required>
+                        <label for="designation">Designation of Employee</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="department_no" id="department_no"  value="{{ employee['department_no'] }}" required>
+                        <label for="department_no">Department Number</label>
+                        <span class="helper-text" data-error="This field is required" data-success=""></span>
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        Submit <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
