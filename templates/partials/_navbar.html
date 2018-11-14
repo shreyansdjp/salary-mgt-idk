@@ -53,10 +53,15 @@
     <li>
         <a href="{{ url_for('employees') }}">View Employees</a>
     </li>
+    {% if session['is_owner'] == 1 %}
     <li>
-        <a href="{{ url_for('add_employees') }}">Add Employees</a>
+        <a href="{{ url_for('add_employees') }}">Add Employee</a>
     </li>
     <li>
         <a href="{{ url_for('add_administrators') }}">Add Administrators</a>
     </li>
+    <li>
+        <a href="{{ url_for('view_administrators') }}">View Administrators</a>
+    </li>
+    {% endif %}
 </ul>

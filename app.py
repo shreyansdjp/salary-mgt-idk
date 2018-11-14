@@ -55,17 +55,12 @@ def company():
             return redirect(url_for('company'))
         company = Company()
         if company.create(name, address, registration_no):
-            print('made a company')
             company_data = company.get(name, registration_no)
-            print('got data')
             if company_data:
                 administrator = Administrator()
-                print('making new administrator')
                 if administrator.create(owner_full_name, username, password, company_data['id'], is_owner=1, is_supervisor=1):
-                    print('made one')
                     flash('You have successfully registered and can login', 'success')
                     return redirect(url_for('login'))
-                print('not working')
     else:
         return render_template('company.html')
 
@@ -86,6 +81,9 @@ def login():
             session['company_id'] = verification_and_data['company_id']
             flash('You are now successfully logged in', 'success')
             return redirect(url_for('employees'))
+        else:
+            flash('Wrong username or password', 'danger')
+            return redirect(url_for('login'))
     else:
         return render_template('login.html')
 
@@ -108,9 +106,8 @@ def employees():
 @app.route('/user/employees/add', methods=["POST", "GET"])
 @login_required
 def add_employees():
-    
     if request.method == "POST":
-        if session['is_owner'] != '1':
+        if session['is_owner'] != 1:
             flash('You are not authorized', 'danger')
             return redirect(url_for('employees'))
         name = request.form['full_name']
@@ -136,19 +133,10 @@ def add_employees():
             flash('Something went wrong', 'danger')
             return redirect(url_for('add_employees'))
     else:
-        return render_template('add_employees.html')
-
-
-@app.route('/user/administrators/add', methods=["POST", "GET"])
-@login_required
-def add_administrators():
-    if request.method == "POST":
-        if session['is_owner'] != '1':
+        if session['is_owner'] != 1:
             flash('You are not authorized', 'danger')
             return redirect(url_for('employees'))
-        pass
-    else:
-        return render_template('add_administrators.html')
+        return render_template('add_employees.html')
 
 
 @app.route('/user/employees/<int:id>', methods=["POST", "GET"])
@@ -163,7 +151,7 @@ def employee(id):
 @login_required
 def edit_employee(id):
     if request.method == "POST":
-        if session['is_owner'] != '1' or session['is_supervisor'] != '1':
+        if session['is_owner'] != 1 or session['is_supervisor'] != 1:
             flash('You are not authorized', 'danger')
             return redirect(url_for('employees'))
         name = request.form['full_name']
@@ -196,7 +184,7 @@ def edit_employee(id):
 @app.route('/user/employees/<int:id>/delete')
 @login_required
 def delete_employee(id):
-    if session['is_owner'] != '1':
+    if session['is_owner'] != 1:
             flash('You are not authorized', 'danger')
             return redirect(url_for('employees'))
     employee = Employee()
@@ -222,6 +210,99 @@ def view(id):
     else:
         total_salary = int(employee['hours_worked']) * int(employee['hour_rate'])
     return render_template('view.html', employee=employee, overtime=overtime, total_salary=total_salary)
+
+
+@app.route('/user/administrators/add', methods=["POST", "GET"])
+@login_required
+def add_administrators():
+    if request.method == "POST":
+        if session['is_owner'] != 1:
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
+        name = request.form['full_name']
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            is_owner = request.form['is_owner']
+            if not (check_int):
+                is_owner = 0
+        except Exception as e:
+            is_owner = 0
+
+        if name == '' or username == '' or password == '' \
+            or is_owner == '':
+            flash('Some Field is missing', 'danger')
+            return redirect('add_administrators')
+        administrator = Administrator()
+        if administrator.create(name, username, password, session['company_id'], is_owner):
+            flash('Successfully added a new administrator', 'success')
+            return redirect(url_for('employees'))
+        else:
+            flash('Something went wrong', 'danger')
+            return redirect(url_for('employees'))
+    else:
+        if session['is_owner'] != 1:
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
+        return render_template('add_administrators.html')
+
+    
+@app.route('/user/administrators/<int:id>/edit', methods=["POST", "GET"])
+@login_required
+def edit_administrators(id):
+    if request.method == "POST":
+        if session['is_owner'] != 1:
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
+        name = request.form['full_name']
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            is_owner = request.form['is_owner']
+            if not (check_int):
+                is_owner = 0
+        except Exception as e:
+            is_owner = 0
+
+        if name == '' or username == '' or password == '' \
+            or is_owner == '':
+            flash('Some Field is missing', 'danger')
+            return redirect('edit_administrator')
+        administrator = Administrator()
+        if administrator.update(id, name, username, password, is_owner, session['company_id']):
+            flash('Successfully updated administrator', 'success')
+            return redirect(url_for('employees'))
+        else:
+            flash('Something went wrong', 'danger')
+            return redirect(url_for('employees'))
+    else:
+        if session['is_owner'] != 1:
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
+        administrator = Administrator().get_one(id)
+        return render_template('edit_administrators.html', administrator=administrator)
+
+
+@app.route('/user/administrators/<int:id>/delete')
+@login_required
+def delete_administrators(id):
+    if session['is_owner'] != 1:
+            flash('You are not authorized', 'danger')
+            return redirect(url_for('employees'))
+    administrator = Administrator()
+    if administrator.delete(id, session['company_id']):
+        flash('Successfully deleted one employee', 'success')
+        return redirect(url_for('employees'))
+    else:
+        flash('Something went wrong', 'danger')
+        return redirect(url_for('view_administrators'))
+
+
+@app.route('/user/administrators/', methods=["POST", "GET"])
+@login_required
+def view_administrators():
+    administrators = Administrator().get(session['company_id'])
+    return render_template('administrators.html', administrators=administrators)
 
 
 if __name__ == '__main__':

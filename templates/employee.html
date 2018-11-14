@@ -18,7 +18,7 @@
                     <button type="submit" href="/user/employees/{{ employee['id'] }}/view" class="btn btn-outline-warning">View Pay Slip</button>
                 </form>
             </div>
-            {% if session['is_owner'] == '1' and session['is_supervisor'] == '1' %}
+            {% if session['is_owner'] == 1 and session['is_supervisor'] == 1 %}
             <div class="card-actions p-4">
                 <a href="/user/employees/{{ employee['id'] }}/edit" class="btn btn-outline-warning">Edit Employee</a>
                 <a href="/user/employees/{{ employee['id'] }}/delete" class="btn btn-outline-danger">Delete Employee</a>

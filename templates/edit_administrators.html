@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %} | Add Administrator {% endblock %}
+{% block title %} | Edit Administrator {% endblock %}
 
 {% block content %}
 <section id="login" class="mt-4 pt-4">
-    <h4 class="mb-4 text-center">Add Administrator</h4>
+    <h4 class="mb-4 text-center">Edit Administrator</h4>
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
-                <form action="{{ url_for('add_administrators') }}" method="POST">
+                <form action="/user/administrators/{{ administrator['id'] }}/edit" method="POST">
                     <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
                     <div class="input-field">
-                        <input type="text" name="full_name" class="validate" id="full_name" required>
+                        <input type="text" name="full_name" class="validate active" value="{{ administrator['name'] }}" id="full_name" required>
                         <label for="full_name">Name of Administrator</label>
                         <span class="helper-text" data-error="This field is required" data-success=""></span>
                     </div>
                     <div class="input-field">
-                        <input type="text" name="username" id="username" required>
+                        <input type="text" name="username" id="username" value="{{ administrator['username'] }}" required>
                         <label for="username">Username</label>
                         <span class="helper-text" data-error="This field is required" data-success=""></span>
                     </div>
@@ -29,7 +29,7 @@
                         <div class="switch">
                             <label>
                                 NO
-                                <input type="checkbox" name="is_owner">
+                                <input type="checkbox" name="is_owner" {% if is_owner == 1 %}checked{% endif %}>
                                 <span class="lever"></span>
                                 YES
                             </label>

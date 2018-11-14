@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} | Administrators {% endblock %}
+
+{% block content %}
+<section id="administrators" class="mt-4 pt-4">
+    <div class="container">
+        {% if administrators %}
+        <table class="responsive-table highlight">
+            <thead>
+                <th>Name</th>
+            </thead>
+            <tbody>
+                {% for administrator in administrators %}
+                <tr>
+                    <td>{{ administrator['name'] }}</td>
+                    <td>
+                        <a href="/user/administrators/{{ administrator['id'] }}/edit" class="btn mr-2">Edit</a>
+                        <a href="/user/administrators/{{ administrator['id'] }}/delete" class="btn mr-2">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="flow-text">There are no administrators in your organization right now! 
+            <a href="{{ url_for('add_administrators') }}">Add Some?</a>
+        </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

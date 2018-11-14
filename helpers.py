@@ -115,6 +115,65 @@ class Administrator:
         finally:
             cursor.close()
 
+    def get(self, company_id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM `administrators` WHERE company_id=%s"
+                cursor.execute(sql, (str(company_id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return None
+                return cursor.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def update(self, id, name, username, password, is_owner, company_id, is_supervisor=1):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE `administrators` SET name=%s, username=%s, pass=%s, is_owner=%s, is_supervisor=%s \
+                        WHERE id=%s AND company_id=%s;"
+                password_hash = sha256_crypt.encrypt(password)
+                cursor.execute(sql, (name, username, password_hash, str(is_owner), str(is_supervisor), str(id), str(company_id)))
+                self.connection.commit()
+                print(cursor.rowcount)
+                if cursor.rowcount == 0:
+                    return False
+                return True
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def delete(self, id, company_id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "DELETE FROM `administrators` WHERE id=%s AND company_id=%s"
+                cursor.execute(sql, (str(id), str(company_id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return False
+                return True
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
+    def get_one(self, id):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM `administrators` WHERE id=%s;"
+                cursor.execute(sql, (str(id)))
+                self.connection.commit()
+                if cursor.rowcount == 0:
+                    return None
+                return cursor.fetchone()
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+
     def __del__(self):
         self.connection.close()
 
