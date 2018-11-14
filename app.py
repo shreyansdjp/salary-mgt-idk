@@ -61,6 +61,9 @@ def company():
                 if administrator.create(owner_full_name, username, password, company_data['id'], is_owner=1, is_supervisor=1):
                     flash('You have successfully registered and can login', 'success')
                     return redirect(url_for('login'))
+                else:
+                    flash('Something went wront', 'danger')
+                    return redirect(url_for('company'))
     else:
         return render_template('company.html')
 
