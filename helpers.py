@@ -24,6 +24,7 @@ class Company:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -40,6 +41,7 @@ class Company:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -54,6 +56,7 @@ class Company:
                 return cursor.fetchone()
         except Exception as e:
             print(e)
+            return None
         finally:
             cursor.close()
     
@@ -77,6 +80,7 @@ class Administrator:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -95,6 +99,7 @@ class Administrator:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -112,6 +117,7 @@ class Administrator:
                 return None
         except Exception as e:
             print(e)
+            return None
         finally:
             cursor.close()
 
@@ -126,6 +132,7 @@ class Administrator:
                 return cursor.fetchall()
         except Exception as e:
             print(e)
+            return None
         finally:
             cursor.close()
 
@@ -143,6 +150,7 @@ class Administrator:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -157,6 +165,7 @@ class Administrator:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -171,6 +180,7 @@ class Administrator:
                 return cursor.fetchone()
         except Exception as e:
             print(e)
+            return None
         finally:
             cursor.close()
 
@@ -194,6 +204,7 @@ class Employee:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -211,6 +222,7 @@ class Employee:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -225,6 +237,7 @@ class Employee:
                 return cursor.fetchone()
         except Exception as e:
             print(e)
+            return None
         finally:
             cursor.close()
 
@@ -239,6 +252,7 @@ class Employee:
                 return cursor.fetchall()
         except Exception as e:
             print(e)
+            return None
         finally:
             cursor.close()
 
@@ -256,6 +270,7 @@ class Employee:
         except Exception as e:
             print('something went wrong')
             print(e)
+            return False
         finally:
             cursor.close()
 
@@ -270,6 +285,7 @@ class Employee:
                 return True
         except Exception as e:
             print(e)
+            return False
         finally:
             cursor.close()
 
