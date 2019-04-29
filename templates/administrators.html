@@ -16,7 +16,7 @@
                     <td>{{ administrator['name'] }}</td>
                     <td>
                         <a href="/user/administrators/{{ administrator['id'] }}/edit" class="btn mr-2">Edit</a>
-                        <a href="/user/administrators/{{ administrator['id'] }}/delete" class="btn mr-2">Delete</a>
+                        <a onclick="return confirm('Do you really want to delete?')" href="/user/administrators/{{ administrator['id'] }}/delete" class="btn mr-2">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

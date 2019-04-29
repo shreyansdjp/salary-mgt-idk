@@ -52,6 +52,22 @@ a:hover *{
     margin: 50px 0 50px 0;
 }
 
+.nav-wrapper {
+    background: #2196F3;
+}
+
+.page-footer {
+    background: #2196F3;
+}
+
+.btn.waves-effect {
+    background: #9C27B0;
+}
+
+.btn {
+    background: #FF9800;
+}
+
 @media print {
     .no-print, .no-print * {
         display: none;
